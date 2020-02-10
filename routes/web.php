@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('karaoke');
 });
+
+Route::get('/requests', 'RequestsController@create')->name('song-requests.create');

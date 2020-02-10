@@ -16,6 +16,8 @@
 
 <script>
     export default {
+        name: 'Karaoke',
+
         mounted() {
             console.log('Component mounted.')
         }
