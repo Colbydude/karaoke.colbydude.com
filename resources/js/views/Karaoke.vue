@@ -1,6 +1,16 @@
 <template>
     <div class="karaoke-container">
         <div id="player">
+            <vue-plyr
+                :key="currentRequest.video_name"
+                :options="{ autoplay: true }"
+                v-if="requests.length > 0"
+            >
+                <div
+                    data-plyr-provider="youtube"
+                    :data-plyr-embed-id="currentRequest.youtube_link"
+                />
+            </vue-plyr>
         </div>
         <div class="queue">
             <div class="queue-header">
@@ -35,6 +45,16 @@
                     {name: 'Tofu', video_name: 'Ghost - Dance Macabe', youtube_link: ''},
                 ]
             };
+        },
+
+        computed: {
+            currentRequest() {
+                if (this.requests.length < 1) {
+                    return null;
+                }
+
+                return this.requests[0];
+            }
         },
 
         mounted() {

@@ -1875,6 +1875,11 @@ core-js-compat@^3.6.2:
     browserslist "^4.8.3"
     semver "7.0.0"
 
+core-js@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.4.tgz#440a83536b458114b9cb2ac1580ba377dc470647"
+  integrity sha512-4paDGScNgZP2IXXilaffL9X7968RuvwlkK3xWtZRVqgd8SYNiVKRJvkFd1aqqEuPfN7E68ZHEp9hDj6lHj4Hyw==
+
 core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -2142,6 +2147,11 @@ csso@^4.0.2:
   integrity sha512-kS7/oeNVXkHWxby5tHVxlhjizRCSv8QdU7hB2FpdAibDU8FjTAolhNjKNTiLzXtUrKT6HwClE81yXwEk1309wg==
   dependencies:
     css-tree "1.0.0-alpha.37"
+
+custom-event-polyfill@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/custom-event-polyfill/-/custom-event-polyfill-1.0.7.tgz#9bc993ddda937c1a30ccd335614c6c58c4f87aee"
+  integrity sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==
 
 cyclist@^1.0.1:
   version "1.0.1"
@@ -3898,6 +3908,11 @@ loader-utils@1.2.3, loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.
     emojis-list "^2.0.0"
     json5 "^1.0.1"
 
+loadjs@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/loadjs/-/loadjs-4.2.0.tgz#2a0336376397a6a43edf98c9ec3229ddd5abb6f6"
+  integrity sha512-AgQGZisAlTPbTEzrHPb6q+NYBMD+DP9uvGSIjSUM5uG+0jG15cb8axWpxuOIqrmQjn6scaaH8JwloiP27b2KXA==
+
 locate-path@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-3.0.0.tgz#dbec3b3ab759758071b58fe59fc41871af21400e"
@@ -4801,6 +4816,17 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
+plyr@^3.5.6, plyr@^3.5.8:
+  version "3.5.8"
+  resolved "https://registry.yarnpkg.com/plyr/-/plyr-3.5.8.tgz#efd023667534c2cb0877f9eecd4c1a2ea5117774"
+  integrity sha512-AoC7MPjLuOB1PTmsdAQ0pGqwnlaNGwC0l2qvHX0tll381DJhuVnj7gd0ujpszeu1U9rFl7ccVteegouP2VlDyw==
+  dependencies:
+    core-js "^3.6.4"
+    custom-event-polyfill "^1.0.7"
+    loadjs "^4.2.0"
+    rangetouch "^2.0.0"
+    url-polyfill "^1.1.8"
+
 popper.js@^1.12:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
@@ -5311,6 +5337,11 @@ range-parser@^1.2.1, range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
+
+rangetouch@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/rangetouch/-/rangetouch-2.0.0.tgz#5459cdb38b929326c5484ab47aac9632fbe3a896"
+  integrity sha512-y66wTFbwh7KafYligRsmIYYR1kZY8U9tGHH9PgbVhBUFmGzPMsOSjslXPedgR5D3M9W1QKVbAf1AtaVAt7JJTw==
 
 raw-body@2.4.0:
   version "2.4.0"
@@ -6413,6 +6444,11 @@ url-parse@^1.4.3:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
+url-polyfill@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.1.8.tgz#21eb58ad61192f52b77dcac8ab5293ae7bc67060"
+  integrity sha512-Ey61F4FEqhcu1vHSOMmjl0Vd/RPRLEjMj402qszD/dhMBrVfoUsnIj8KSZo2yj+eIlxJGKFdnm6ES+7UzMgZ3Q==
+
 url@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/url/-/url-0.11.0.tgz#3838e97cfc60521eb73c525a8e55bfdd9e2e28f1"
@@ -6501,6 +6537,14 @@ vue-loader@^15.4.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-plyr@^6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/vue-plyr/-/vue-plyr-6.0.4.tgz#78834dc74537ae306d18d9e2e5cb0d42a1718efd"
+  integrity sha512-Om5jalZNYntrTCvPtyDx/YIUSo4YcxHBK2DQKr1u47Q5XsqGbCWB7ALBWbZWP0WptENt6oUKxokJ0RbRvDGy2Q==
+  dependencies:
+    plyr "^3.5.6"
+    vue "^2.6.10"
+
 vue-style-loader@^4.1.0:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.2.tgz#dedf349806f25ceb4e64f3ad7c0a44fba735fcf8"
@@ -6522,7 +6566,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.5.17:
+vue@^2.5.17, vue@^2.6.10:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
