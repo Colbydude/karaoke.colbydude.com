@@ -14,7 +14,7 @@ class RequestsController extends Controller
      */
     public function index()
     {
-        return SongRequest::all();
+        return response()->json(SongRequest::all());
     }
 
     /**
@@ -37,12 +37,11 @@ class RequestsController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'youtube_link' => 'required|string|max:255'
+            'youtube_link' => 'required|string|max:255',
+            'video_name' => 'required|string|max:255',
         ]);
 
-        // @TODO: Determine order.
-
-        $song_request = SongRequest::create($request->only(['name', 'youtube_link']));
+        $song_request = SongRequest::create($request->only(['name', 'video_name', 'youtube_link']));
 
         return response()->json($song_request, 201);
     }
@@ -55,7 +54,7 @@ class RequestsController extends Controller
      */
     public function show(SongRequest $song_request)
     {
-        return $song_request;
+        return response()->json($song_request);
     }
 
     /**
@@ -67,7 +66,18 @@ class RequestsController extends Controller
      */
     public function update(Request $request, SongRequest $song_request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'youtube_link' => 'required|string|max:255',
+            'video_name' => 'required|string|max:255',
+        ]);
+
+        $song_request->name = $request->input('name');
+        $song_request->video_name = $request->input('video_name');
+        $song_request->youtube_link = $request->input('youtube_link');
+        $song_request->save();
+
+        return response()->json($song_request);
     }
 
     /**
@@ -78,6 +88,8 @@ class RequestsController extends Controller
      */
     public function destroy(SongRequest $song_request)
     {
-        //
+        $song_request->delete();
+
+        return response()->json([]);
     }
 }

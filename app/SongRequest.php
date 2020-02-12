@@ -19,6 +19,6 @@ class SongRequest extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'youtube_link', 'order'
+        'name', 'youtube_link', 'video_name'
     ];
 }

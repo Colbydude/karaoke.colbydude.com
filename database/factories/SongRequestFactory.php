@@ -22,5 +22,6 @@ $factory->define(SongRequest::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'youtube_link' => $faker->youtubeRandomUri(),
+        'video_name' => $faker->words(3, true)
     ];
 });

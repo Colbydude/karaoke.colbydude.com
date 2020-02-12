@@ -17,7 +17,7 @@ class CreateRequestsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('youtube_link');
-            $table->integer('order')->default(0);
+            $table->string('video_name');
             $table->timestamps();
         });
     }
