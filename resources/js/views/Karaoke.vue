@@ -68,9 +68,7 @@
         mounted() {
             // Listen for pusher events for when requests are added.
             Echo.channel('requests')
-            .listen('SongRequestCreated', (e) => {
-                console.log(e);
-            });
+            .listen('SongRequestCreated', () => this.fetchRequests());
 
             // Fetch the request queue.
             this.fetchRequests();
