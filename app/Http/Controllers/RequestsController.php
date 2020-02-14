@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SongRequestCreated;
 use App\SongRequest;
 use Illuminate\Http\Request;
 
@@ -42,6 +43,8 @@ class RequestsController extends Controller
         ]);
 
         $song_request = SongRequest::create($request->only(['name', 'video_name', 'youtube_link']));
+
+        event(new SongRequestCreated($song_request));
 
         return response()->json($song_request, 201);
     }

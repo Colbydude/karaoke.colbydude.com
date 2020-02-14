@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Events\SongRequestCreated;
 use App\SongRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class RequestControllerTest extends TestCase
@@ -55,14 +57,18 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_can_store_a_request()
     {
+        Event::fake();
+
         $data = ['name' => 'Clob', 'video_name' => 'Incubus - Stellar (Official Music Video)', 'youtube_link' => 'https://www.youtube.com/watch?v=-nqRkAsZumc'];
 
         $response = $this->post(route('song-requests.store'), $data);
-
         $response->assertStatus(201)
                  ->assertJson($data);
-
         $this->assertDatabaseHas('requests', $data);
+
+        Event::assertDispatched(SongRequestCreated::class, function ($e) use ($data) {
+            return $e->song_request->name === $data['name'];
+        });
     }
 
     /** @test */

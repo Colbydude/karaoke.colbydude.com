@@ -66,8 +66,19 @@
         },
 
         mounted() {
+            // Listen for pusher events for when requests are added.
+            Echo.channel('requests')
+            .listen('SongRequestCreated', (e) => {
+                console.log(e);
+            });
+
             // Fetch the request queue.
             this.fetchRequests();
+        },
+
+        beforeDestroy() {
+            // Stop listening for pusher events.
+            Echo.leave('requests');
         },
 
         methods: {
