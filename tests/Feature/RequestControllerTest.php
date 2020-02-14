@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Events\SongRequestCreated;
+use App\Events\SongRequestDeleted;
+use App\Events\SongRequestsCleared;
 use App\SongRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -91,14 +93,34 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_can_delete_a_request()
     {
-        $request = factory(SongRequest::class)->create();
+        Event::fake();
 
+        $request = factory(SongRequest::class)->create();
         $this->assertDatabaseHas('requests', $request->toArray());
 
         $response = $this->delete(route('song-requests.destroy', $request->id));
-
         $response->assertStatus(200);
 
         $this->assertDatabaseMissing('requests', $request->toArray());
+
+        Event::assertDispatched(SongRequestDeleted::class, function ($e) use ($request) {
+            return $e->song_request->name === $request->name;
+        });
+    }
+
+    /** @test */
+    public function it_can_clear_all_requests()
+    {
+        Event::fake();
+
+        $request = factory(SongRequest::class)->create();
+        $this->assertDatabaseHas('requests', $request->toArray());
+
+        $response = $this->delete(route('song-requests.clear'));
+        $response->assertStatus(200);
+
+        $this->assertDatabaseMissing('requests', $request->toArray());
+
+        Event::assertDispatched(SongRequestsCleared::class, 1);
     }
 }

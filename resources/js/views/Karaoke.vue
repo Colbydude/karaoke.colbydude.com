@@ -68,7 +68,9 @@
         mounted() {
             // Listen for pusher events for when requests are added.
             Echo.channel('requests')
-            .listen('SongRequestCreated', () => this.fetchRequests());
+            .listen('SongRequestCreated', () => this.fetchRequests())
+            .listen('SongRequestDeleted', () => this.fetchRequests())
+            .listen('SongRequestsCleared', () => this.fetchRequests());
 
             // Fetch the request queue.
             this.fetchRequests();
@@ -112,7 +114,6 @@
                 console.log(`${this.currentRequest.video_name} ended.`);
 
                 this.deleteRequest(this.currentRequest)
-                .then(() => this.fetchRequests())
                 .catch(error => console.log);
             }
         }

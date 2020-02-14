@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\SongRequestCreated;
+use App\Events\SongRequestDeleted;
+use App\Events\SongRequestsCleared;
 use App\SongRequest;
 use Illuminate\Http\Request;
 
@@ -91,7 +93,23 @@ class RequestsController extends Controller
      */
     public function destroy(SongRequest $song_request)
     {
+        event(new SongRequestDeleted($song_request));
+
         $song_request->delete();
+
+        return response()->json([]);
+    }
+
+    /**
+     * Clear all resources from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function clear()
+    {
+        SongRequest::truncate();
+
+        event(new SongRequestsCleared);
 
         return response()->json([]);
     }

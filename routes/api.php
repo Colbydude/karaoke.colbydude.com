@@ -14,3 +14,4 @@ use Illuminate\Http\Request;
 */
 
 Route::resource('song-requests', 'RequestsController')->except(['create', 'edit']);
+Route::delete('song-requests', 'RequestsController@clear')->name('song-requests.clear');
