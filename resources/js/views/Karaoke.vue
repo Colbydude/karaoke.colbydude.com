@@ -2,8 +2,11 @@
     <div class="karaoke-container">
         <div id="player">
             <vue-plyr
+                style="width: 100%; height: 100%;"
+                :emit="['ended']"
                 :key="currentRequest.video_name"
-                :options="{ autoplay: true }"
+                :options="{ autoplay: false }"
+                @ended="loadNextSong"
                 v-if="requests.length > 0"
             >
                 <div
@@ -34,39 +37,73 @@
 
         data() {
             return {
-                requests: [
-                    {name: 'Clob', video_name: 'Incubus - Drive', youtube_link: ''},
-                    {name: 'Owen', video_name: 'My Chemical Romance - Welcome to the Black Parade', youtube_link: ''},
-                    {name: 'Evan', video_name: 'The Killers - Mr. Brightside', youtube_link: ''},
-                    {name: 'Bryant', video_name: 'Four Year Strong - It Must Really Suck To Be Four Year Strong Right Now', youtube_link: ''},
-                    {name: 'Simon', video_name: 'Some JoJo shit or whatever', youtube_link: ''},
-                    {name: 'tlo', video_name: 'Porter Robinson - I don\'t remember any songs by him', youtube_link: ''},
-                    {name: 'Ben', video_name: 'A-ha - Take On Me', youtube_link: ''},
-                    {name: 'Tofu', video_name: 'Ghost - Dance Macabe', youtube_link: ''},
-                ]
+                requests: []    // Request queue.
             };
         },
 
         computed: {
+            /**
+             * The request at the top of the request queue.
+             *
+             * @return {SongRequest}
+             */
             currentRequest() {
                 if (this.requests.length < 1) {
                     return null;
                 }
 
                 return this.requests[0];
+            },
+
+            /**
+             * The vue-plyr instance.
+             *
+             * @return {VuePlyr}
+             */
+            player() {
+                return this.$refs.plyr.player;
             }
         },
 
         mounted() {
+            // Fetch the request queue.
             this.fetchRequests();
         },
 
         methods: {
+            /**
+             * Delete the given request.
+             *
+             * @param  {SongRequest}  request
+             * @return {Promise}
+             */
+            deleteRequest(request) {
+                return axios.delete(`/api/song-requests/${request.id}`);
+            },
+
+            /**
+             * Fetch the request queue and bind the player ended event.
+             *
+             * @return {Void}
+             */
             fetchRequests() {
                 axios.get('/api/song-requests')
                 .then(response => {
-                    // this.requests = response.data;
+                    this.requests = response.data;
                 })
+                .catch(error => console.log);
+            },
+
+            /**
+             * "Load" the next song by deleting the current request and refreshing the queue.
+             *
+             * @return {Void}
+             */
+            loadNextSong() {
+                console.log(`${this.currentRequest.video_name} ended.`);
+
+                this.deleteRequest(this.currentRequest)
+                .then(() => this.fetchRequests())
                 .catch(error => console.log);
             }
         }

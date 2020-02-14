@@ -4,9 +4,15 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import './bootstrap';
+import Vue from 'vue';
+import VuePlyr from 'vue-plyr/dist/vue-plyr.ssr.js';
 
-window.Vue = require('vue');
+Vue.use(VuePlyr, {
+    plyr: {
+        fullscreen: { enabled: false }
+    }
+});
 
 /**
  * The following block of code may be used to automatically register your
