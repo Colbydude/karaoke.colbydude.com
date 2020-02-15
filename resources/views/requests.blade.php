@@ -9,7 +9,7 @@
         <link href="{{ mix('css/app.css') }}" rel="stylesheet" />
     </head>
     <body>
-        <div id="app">
+        <div id="app" class="fullscreen-container">
             <requests></requests>
         </div>
 

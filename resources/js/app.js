@@ -8,11 +8,20 @@ import './bootstrap';
 import Vue from 'vue';
 import VuePlyr from 'vue-plyr/dist/vue-plyr.ssr.js';
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 Vue.use(VuePlyr, {
     plyr: {
         fullscreen: { enabled: false }
     }
 });
+
+// Setup font-awesome icons.
+library.add([faPlus, faTimes]);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 /**
  * The following block of code may be used to automatically register your
