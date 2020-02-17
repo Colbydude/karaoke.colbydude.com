@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\SongRequestCreated;
 use App\Events\SongRequestDeleted;
 use App\Events\SongRequestsCleared;
+use App\Rules\YouTubeLink;
+use App\Services\YouTubeService;
 use App\SongRequest;
 use Illuminate\Http\Request;
 
@@ -40,11 +42,20 @@ class RequestsController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'youtube_link' => 'required|string|max:255',
-            'video_name' => 'required|string|max:255',
+            'youtube_link' => ['required', 'string', 'max:255', new YouTubeLink]
         ]);
 
-        $song_request = SongRequest::create($request->only(['name', 'video_name', 'youtube_link']));
+        // Fetch video name.
+        $videoId = YouTubeService::extractIdFromUrl($request->input('youtube_link'));
+        $videoData = YouTubeService::getDataById($videoId);
+
+        $videoName = $videoData['items'][0]['snippet']['title'];
+
+        $song_request = SongRequest::create([
+            'name' => $request->input('name'),
+            'youtube_link' => $request->input('youtube_link'),
+            'video_name' => $videoName,
+        ]);
 
         event(new SongRequestCreated($song_request));
 

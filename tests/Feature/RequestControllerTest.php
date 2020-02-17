@@ -29,7 +29,7 @@ class RequestControllerTest extends TestCase
             $this->assertDatabaseHas('requests', $request);
         }
 
-        $response = $this->get(route('song-requests.index'));
+        $response = $this->json('GET', route('song-requests.index'));
 
         $response->assertStatus(200)
                  ->assertJson($requests);
@@ -42,7 +42,7 @@ class RequestControllerTest extends TestCase
 
         $this->assertDatabaseHas('requests', $request->toArray());
 
-        $response = $this->get(route('song-requests.show', $request->id));
+        $response = $this->json('GET', route('song-requests.show', $request->id));
 
         $response->assertStatus(200)
                  ->assertJson($request->toArray());
@@ -51,7 +51,7 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_should_404_for_a_non_existent_request_on_show()
     {
-        $response = $this->get(route('song-requests.show', 42));
+        $response = $this->json('GET', route('song-requests.show', 42));
 
         $response->assertStatus(404);
     }
@@ -61,9 +61,12 @@ class RequestControllerTest extends TestCase
     {
         Event::fake();
 
-        $data = ['name' => 'Clob', 'video_name' => 'Incubus - Stellar (Official Music Video)', 'youtube_link' => 'https://www.youtube.com/watch?v=-nqRkAsZumc'];
+        $data = ['name' => 'Clob', 'youtube_link' => 'https://www.youtube.com/watch?v=-nqRkAsZumc'];
 
-        $response = $this->post(route('song-requests.store'), $data);
+        $response = $this->json('POST', route('song-requests.store'), $data);
+
+        $data['video_name'] = 'Incubus - Stellar (Official Music Video)';
+
         $response->assertStatus(201)
                  ->assertJson($data);
         $this->assertDatabaseHas('requests', $data);
@@ -71,6 +74,16 @@ class RequestControllerTest extends TestCase
         Event::assertDispatched(SongRequestCreated::class, function ($e) use ($data) {
             return $e->song_request->name === $data['name'];
         });
+    }
+
+    /** @test */
+    public function it_should_422_for_invalid_youtube_links_when_storing()
+    {
+        $data = ['name' => 'Clob', 'youtube_link' => 'https://youtube.com'];
+
+        $response = $this->json('POST', route('song-requests.store'), $data);
+
+        $response->assertStatus(422);
     }
 
     /** @test */
@@ -82,7 +95,7 @@ class RequestControllerTest extends TestCase
 
         $data = ['name' => 'Ben', 'video_name' => 'Tangled - I See The Light (Karaoke Version)', 'youtube_link' => 'https://www.youtube.com/watch?v=FLgWioSXAQU'];
 
-        $response = $this->put(route('song-requests.update', $request->id), $data);
+        $response = $this->json('PUT', route('song-requests.update', $request->id), $data);
 
         $response->assertStatus(200)
                  ->assertJson($data);
@@ -98,7 +111,7 @@ class RequestControllerTest extends TestCase
         $request = factory(SongRequest::class)->create();
         $this->assertDatabaseHas('requests', $request->toArray());
 
-        $response = $this->delete(route('song-requests.destroy', $request->id));
+        $response = $this->json('DELETE', route('song-requests.destroy', $request->id));
         $response->assertStatus(200);
 
         $this->assertDatabaseMissing('requests', $request->toArray());
@@ -116,7 +129,7 @@ class RequestControllerTest extends TestCase
         $request = factory(SongRequest::class)->create();
         $this->assertDatabaseHas('requests', $request->toArray());
 
-        $response = $this->delete(route('song-requests.clear'));
+        $response = $this->json('DELETE', route('song-requests.clear'));
         $response->assertStatus(200);
 
         $this->assertDatabaseMissing('requests', $request->toArray());
