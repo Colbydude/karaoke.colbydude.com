@@ -11,6 +11,7 @@
             <div class="queue-header">
                 <span class="queue-header-count">{{ requests.length }}</span>
                 <span>Song Queue</span>
+                <span class="success-notification" v-show="showSuccess">Request added!</span>
             </div>
             <div class="queue-content">
                 <div class="queue-item" v-for="request in requests">
@@ -24,12 +25,18 @@
             <form @submit.prevent="addRequest">
                 <div class="form-group">
                     <label for="name">Your Name:</label>
-                    <input type="text" name="name" class="form-control" required />
+                    <input type="text" name="name" class="form-control" v-model="name" required />
+                    <small class="form-text text-danger" v-if="errors.name">
+                        {{ errors.name[0] }}
+                    </small>
                 </div>
 
                 <div class="form-group">
                     <label for="youtube_link">YouTube Link:</label>
-                    <input type="text" name="youtube_link" class="form-control" required />
+                    <input type="text" name="youtube_link" class="form-control" v-model="youtube_link" required />
+                    <small class="form-text text-danger" v-if="errors.youtube_link">
+                        {{ errors.youtube_link[0] }}
+                    </small>
                 </div>
 
                 <button class="btn btn-primary" type="submit">Request</button>
@@ -44,9 +51,11 @@
 
         data() {
             return {
+                errors: {},
                 name: '',
                 requests: [],
                 showForm: false,
+                showSuccess: false,
                 youtube_link: ''
             };
         },
@@ -69,12 +78,32 @@
              * @return {Void}
              */
             addRequest() {
-                // @TODO: Validate YouTube link.
-                //        Determine video name from link.
-                //        POST to API.
+                this.errors = {};
 
-                this.name = '';
-                this.youtube_link = '';
+                axios.post('/api/song-requests', {
+                    name: this.name,
+                    youtube_link: this.youtube_link
+                })
+                .then(response => {
+                    this.name = '';
+                    this.youtube_link = '';
+
+                    this.toggleForm();
+
+                    // Show success message for 5 seconds.
+                    this.showSuccess = true;
+
+                    setTimeout(() => {
+                        this.showSuccess = false;
+                    }, 5000);
+                })
+                .catch(error => {
+                    if (error.response.data.errors) {
+                        this.errors = error.response.data.errors;
+                    }
+
+                    console.log(error);
+                });
             },
 
             /**
@@ -162,6 +191,15 @@
         width: 25px;
     }
 
+    .success-notification {
+        background-color: #d4edda;
+        border-radius: 2px;
+        color: #155724;
+        padding: 5px 10px;
+        position: absolute;
+        right: 20px;
+    }
+
     .queue-content {
         height: calc(100vh - 90px);
         overflow-y: auto;
@@ -196,5 +234,9 @@
 
     .request-form {
         padding: 20px;
+    }
+
+    .text-danger {
+        color: #dc3545!important;
     }
 </style>

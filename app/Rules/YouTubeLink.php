@@ -27,6 +27,6 @@ class YouTubeLink implements Rule
      */
     public function message()
     {
-        return 'The :attribute must be a valid YouTube link.';
+        return 'This must be a valid YouTube link.';
     }
 }
