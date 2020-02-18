@@ -235,8 +235,4 @@
     .request-form {
         padding: 20px;
     }
-
-    .text-danger {
-        color: #dc3545!important;
-    }
 </style>

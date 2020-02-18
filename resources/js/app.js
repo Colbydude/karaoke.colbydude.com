@@ -9,7 +9,7 @@ import Vue from 'vue';
 import VuePlyr from 'vue-plyr/dist/vue-plyr.ssr.js';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.use(VuePlyr, {
@@ -19,7 +19,7 @@ Vue.use(VuePlyr, {
 });
 
 // Setup font-awesome icons.
-library.add([faPlus, faTimes]);
+library.add([faPlus, faTimes, faTrash]);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

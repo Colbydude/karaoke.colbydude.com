@@ -15,6 +15,13 @@ class RequestControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp() : void
+    {
+        parent::setUp();
+
+        Event::fake();
+    }
+
     /** @test */
     public function it_can_fetch_a_list_of_requests()
     {
@@ -59,8 +66,6 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_can_store_a_request()
     {
-        Event::fake();
-
         $data = ['name' => 'Clob', 'youtube_link' => 'https://www.youtube.com/watch?v=-nqRkAsZumc'];
 
         $response = $this->json('POST', route('song-requests.store'), $data);
@@ -83,7 +88,12 @@ class RequestControllerTest extends TestCase
 
         $response = $this->json('POST', route('song-requests.store'), $data);
 
-        $response->assertStatus(422);
+        $response->assertStatus(422)
+                 ->assertJson([
+                     'errors' => [
+                         'youtube_link' => ['This must be a valid YouTube link.']
+                     ]
+                 ]);
     }
 
     /** @test */
@@ -106,8 +116,6 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_can_delete_a_request()
     {
-        Event::fake();
-
         $request = factory(SongRequest::class)->create();
         $this->assertDatabaseHas('requests', $request->toArray());
 
@@ -124,8 +132,6 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_can_clear_all_requests()
     {
-        Event::fake();
-
         $request = factory(SongRequest::class)->create();
         $this->assertDatabaseHas('requests', $request->toArray());
 

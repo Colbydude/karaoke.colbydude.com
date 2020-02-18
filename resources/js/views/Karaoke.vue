@@ -22,9 +22,17 @@
             </div>
             <div class="queue-content">
                 <div class="queue-item" v-for="request in requests">
-                    <h3>{{ request.video_name }}</h3>
+                    <div class="video-name">
+                        <h3>{{ request.video_name }}</h3>
+                    </div>
                     <span>Requested by</span>
                     <h5>{{ request.name }}</h5>
+                    <div class="item-actions">
+                        <a @click.prevent="deleteRequest(request)">
+                            <font-awesome-icon class="fa-fw text-danger" icon="trash" />
+                            Remove
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -209,6 +217,11 @@
             }
         }
 
+        &:hover .item-actions {
+            opacity: .95;
+            visibility: visible;
+        }
+
         h3 {
             font-size: 16px;
             font-weight: normal;
@@ -225,6 +238,58 @@
             display: block;
             font-size: .8rem;
             margin: 5px 0;
+        }
+
+        .video-name {
+            display: block;
+            height: 38px;
+
+            h3 {
+                height: 38px;
+                overflow: hidden;
+                text-overflow: ellipsis
+            }
+        }
+    }
+
+    .item-actions {
+        background: white;
+        border-radius: 5px;
+        display: flex;
+        height: 100%;
+        left: 0;
+        list-style-type: none;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        transition: opacity .2s ease;
+        visibility: hidden;
+        width: 100%;
+        z-index: 10000;
+
+        a {
+            align-items: center;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            font-size: 11px;
+            height: 100%;
+            justify-content: center;
+            opacity: .5;
+            padding: 10px;
+            text-align: left;
+            transition: opacity .2s ease;
+            width: 100%;
+
+            &:hover {
+                background: #fafafa;
+                opacity: 1;
+            }
+
+            svg {
+                font-size: 20px;
+            }
         }
     }
 </style>
