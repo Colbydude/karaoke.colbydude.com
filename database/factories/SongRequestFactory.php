@@ -1,27 +1,32 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\SongRequest;
-use Faker\Generator as Faker;
+use App\Models\SongRequest;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
+class SongRequestFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = SongRequest::class;
 
-$factory->define(SongRequest::class, function (Faker $faker) {
-    $faker->addProvider(new \Faker\Provider\Youtube($faker));
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $this->faker->addProvider(new \Faker\Provider\Youtube($this->faker));
 
-    return [
-        'name' => $faker->name,
-        'youtube_link' => $faker->youtubeRandomUri(),
-        'video_name' => $faker->words(3, true)
-    ];
-});
+        return [
+            'name' => $this->faker->name(),
+            'youtube_link' => $this->faker->youtubeRandomUri(),
+            'video_name' => $this->faker->words(3, true)
+        ];
+    }
+}

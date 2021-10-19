@@ -1,3 +1,5 @@
+/.idea
+/.vscode
 /node_modules
 /public/css
 /public/fonts
@@ -12,5 +14,6 @@
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
+docker-compose.override.yml
 npm-debug.log
 yarn-error.log

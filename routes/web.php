@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\RequestsController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +18,4 @@ Route::get('/', function () {
     return view('karaoke');
 });
 
-Route::get('/requests', 'RequestsController@create')->name('song-requests.create');
+Route::get('/requests', [RequestsController::class, 'create'])->name('song-requests.create');

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\SongRequest;
+use App\Models\SongRequest;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;

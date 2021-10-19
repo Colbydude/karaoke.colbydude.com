@@ -5,9 +5,8 @@ namespace Tests\Feature;
 use App\Events\SongRequestCreated;
 use App\Events\SongRequestDeleted;
 use App\Events\SongRequestsCleared;
-use App\SongRequest;
+use App\Models\SongRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -31,7 +30,7 @@ class RequestControllerTest extends TestCase
         ];
 
         foreach ($requests as $request) {
-            factory(SongRequest::class)->create($request);
+            SongRequest::factory()->create($request);
 
             $this->assertDatabaseHas('requests', $request);
         }
@@ -45,7 +44,7 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_can_fetch_a_single_request()
     {
-        $request = factory(SongRequest::class)->create();
+        $request = SongRequest::factory()->create();
 
         $this->assertDatabaseHas('requests', $request->toArray());
 
@@ -99,7 +98,7 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_can_update_a_request()
     {
-        $request = factory(SongRequest::class)->create();
+        $request = SongRequest::factory()->create();
 
         $this->assertDatabaseHas('requests', $request->toArray());
 
@@ -116,7 +115,7 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_can_delete_a_request()
     {
-        $request = factory(SongRequest::class)->create();
+        $request = SongRequest::factory()->create();
         $this->assertDatabaseHas('requests', $request->toArray());
 
         $response = $this->json('DELETE', route('song-requests.destroy', $request->id));
@@ -132,7 +131,7 @@ class RequestControllerTest extends TestCase
     /** @test */
     public function it_can_clear_all_requests()
     {
-        $request = factory(SongRequest::class)->create();
+        $request = SongRequest::factory()->create();
         $this->assertDatabaseHas('requests', $request->toArray());
 
         $response = $this->json('DELETE', route('song-requests.clear'));

@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use App\Events\SongRequestCreated;
 use App\Events\SongRequestDeleted;
 use App\Events\SongRequestsCleared;
+use App\Models\SongRequest;
 use App\Rules\YouTubeLink;
-use App\Services\YouTubeService;
-use App\SongRequest;
+use App\Services\YouTubeApiService;
 use Illuminate\Http\Request;
 
 class RequestsController extends Controller
 {
+    protected YouTubeApiService $youtubeApiService;
+
+    function __construct(YouTubeApiService $youtubeApiService)
+    {
+        $this->youtubeApiService = $youtubeApiService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -46,10 +53,10 @@ class RequestsController extends Controller
         ]);
 
         // Fetch video name.
-        $videoId = YouTubeService::extractIdFromUrl($request->input('youtube_link'));
-        $videoData = YouTubeService::getDataById($videoId);
+        $videoId = $this->youtubeApiService->extractIdFromUrl($request->input('youtube_link'));
+        $videoData = $this->youtubeApiService->getDataById($videoId);
 
-        $videoName = $videoData['items'][0]['snippet']['title'];
+        $videoName = $videoData->items[0]->snippet->title;
 
         $song_request = SongRequest::create([
             'name' => $request->input('name'),
@@ -65,7 +72,7 @@ class RequestsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\SongRequest  $song_request
+     * @param  \App\Models\SongRequest  $song_request
      * @return \Illuminate\Http\Response
      */
     public function show(SongRequest $song_request)
@@ -77,7 +84,7 @@ class RequestsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\SongRequest  $song_request
+     * @param  \App\Models\SongRequest  $song_request
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, SongRequest $song_request)
@@ -99,7 +106,7 @@ class RequestsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\SongRequest  $song_request
+     * @param  \App\Models\SongRequest  $song_request
      * @return \Illuminate\Http\Response
      */
     public function destroy(SongRequest $song_request)

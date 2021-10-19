@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\RequestsController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +14,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('song-requests', 'RequestsController')->except(['create', 'edit']);
-Route::delete('song-requests', 'RequestsController@clear')->name('song-requests.clear');
+Route::resource('song-requests', RequestsController::class)->except(['create', 'edit']);
+Route::delete('song-requests', [RequestsController::class, 'clear'])->name('song-requests.clear');
